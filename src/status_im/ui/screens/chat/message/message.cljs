@@ -474,29 +474,11 @@
                                        (not @collapsible?)
                                        (not outgoing)
                                        (not modal))
-                              (reset! collapsed? true)
                               (reset! collapsible? true))}
                (when (and (seq response-to) (:quoted-message message))
                  [quoted-message response-to (:quoted-message message) outgoing current-public-key public? pinned])
                [render-parsed-text-with-message-status message (:parsed-text content)]])
-            (when-not @collapsible? [message-status message])
-            (when (and @collapsible? (not modal))
-              (if @collapsed?
-                (let [color (if pinned colors/pin-background (if mentioned colors/mentioned-background colors/blue-light))]
-                  [react/touchable-highlight
-                   {:on-press #(swap! collapsed? not)
-                    :style    {:position :absolute :bottom 0 :left 0 :right 0 :height 72}}
-                   [react/view
-                    [react/view {:height         72 :align-self :center :justify-content :flex-end
-                                 :padding-bottom 10}
-                     [react/view (style/collapse-button)
-                      [icons/icon :main-icons/dropdown
-                       {:color colors/white}]]]]])
-                [react/touchable-highlight {:on-press #(swap! collapsed? not)
-                                            :style    {:align-self :center :margin 5}}
-                 [react/view (style/collapse-button)
-                  [icons/icon :main-icons/dropdown-up
-                   {:color colors/white}]]]))]]]]))))
+            (when-not @collapsible? [message-status message])]]]]))))
 
 (defmethod ->message constants/content-type-text
   [message {:keys [on-long-press modal] :as reaction-picker}]
