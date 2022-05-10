@@ -96,6 +96,7 @@ doo-index.html
 
 # Status
 Statusgo.framework
+Statusgo.xcframework
 
 #ios
 /ios/Pods/
