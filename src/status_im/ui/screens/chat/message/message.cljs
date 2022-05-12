@@ -311,7 +311,7 @@
   "Author, userpic and delivery wrapper"
   [{:keys [last-in-group? display-photo? display-username?
            identicon
-           from outgoing in-popover?]
+           from outgoing in-popover? timestamp-str]
     :as   message} content {:keys [modal close-modal]}]
   [react/view {:style               (style/message-wrapper message)
                :pointer-events      :box-none
@@ -325,11 +325,18 @@
           [photos/member-photo from identicon]])]
     [react/view {:style (style/message-author-wrapper outgoing display-photo? in-popover?)}
      (when display-username?
-       [react/touchable-opacity {:style    style/message-author-touchable
-                                 :disabled in-popover?
-                                 :on-press #(do (when modal (close-modal))
-                                                (re-frame/dispatch [:chat.ui/show-profile from]))}
-        [message-author-name from {:modal modal}]])
+       [react/view {:style {:flex-direction :row}}
+        [react/touchable-opacity {:style    style/message-author-touchable
+                                  :disabled in-popover?
+                                  :on-press #(do (when modal (close-modal))
+                                                 (re-frame/dispatch [:chat.ui/show-profile from]))}
+         [message-author-name from {:modal modal}]]
+        [react/text
+         {:style               (merge
+                                {:padding-left 5}
+                                (style/message-timestamp-text))
+          :accessibility-label :message-timestamp}
+         timestamp-str]])
      ;;MESSAGE CONTENT
      content
      [link-preview/link-preview-wrapper (:links (:content message)) outgoing false]]]

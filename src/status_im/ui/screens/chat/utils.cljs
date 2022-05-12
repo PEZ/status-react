@@ -17,7 +17,7 @@
                            :style           {:color       (if modal colors/white-persist colors/black-light)
                                              :font-size   (if profile? 15 13)
                                              :line-height (if profile? 22 18)
-                                             :font-weight "500"}}
+                                             :font-weight "600"}}
         (subs first-name 0 81)
         (when you?
           [{:style {:color colors/black-light :font-weight "500" :font-size 13}}

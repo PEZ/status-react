@@ -7,8 +7,16 @@
    :margin-vertical 16
    :padding-left 50})
 
+(def divider
+  {:flex        1
+   :width           "100%"
+   :height          1
+   :padding-left 53
+   :background-color (:ui-01 @colors/theme)
+   :margin-top 5})
+
 (defn datemark-text []
-  {:color colors/gray
+  {:color colors/gray-darker
    :font-size 14
    :line-height 16
-   :font-weight "400"})
+   :font-weight "500"})

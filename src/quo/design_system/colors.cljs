@@ -38,6 +38,7 @@
    :text-03        "rgba(255,255,255,0.7)" ; Secondary on accent
    :text-04        "rgba(67,96,223,1)"     ; Links text color
    :text-05        "rgba(255,255,255,1)"   ; Text inverse on accent
+   :text-06        "rgba(103,118,137,1)"
    :icon-01        "rgba(0,0,0,1)"         ; Primary icons
    :icon-02        "rgba(147,155,161,1)"   ; Secondary icons
    :icon-03        "rgba(255,255,255,0.4)" ; Secondary icons on accent bg
@@ -71,6 +72,7 @@
    :text-03        "rgba(255,255,255,0.7)"
    :text-04        "rgba(97,119,229,1)"
    :text-05        "rgba(20,20,20,1)"
+   :text-06        "rgba(103,118,137,1)"
    :icon-01        "rgba(255,255,255,1)"
    :icon-02        "rgba(131,140,145,1)"
    :icon-03        "rgba(255,255,255,0.4)"
@@ -137,6 +139,7 @@
 
 ;; DARK GREY
 (def gray (:text-02 light-theme))                                    ;; Dark grey, used as a background for a light foreground and as section header and secondary text color
+(def gray-darker (:text-06 light-theme))                                    ;; Dark grey, used as a background for a light foreground and as section header and secondary text color
 (def gray-transparent-10 (alpha gray 0.1))
 (def gray-transparent-40 (alpha gray 0.4))
 ;; LIGHT GREY
