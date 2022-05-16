@@ -127,7 +127,11 @@
 
 (defn right-button-options [id icon]
   {:id   id
-   :icon (icons/icon-source icon)})
+   :icon (icons/icon-source icon)
+   :iconBackground {:color "#EDF2F4"
+                    :cornerRadius 10
+                    :width 32
+                    :height 32}})
 
 (defn screens []
   (concat [;;INTRO, ONBOARDING, LOGIN
@@ -221,9 +225,9 @@
            ;Chat
            {:name          :chat
             :options       {:popGesture false
-                            :hardwareBackButton {:dismissModalOnPress false
-                                                 :popStackOnPress     false}
-                            :topBar             {:visible false}}
+                            :topBar     {:title        {:component {:name :chat-toolbar :id :chat-toolbar}
+                                                        :alignment :fill}
+                                         :rightButtons [(right-button-options :chat-search :search)]}}
             :component     chat/chat}
 
            ;Pinned messages

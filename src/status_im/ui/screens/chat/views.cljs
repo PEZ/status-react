@@ -446,7 +446,7 @@
             mutual-contact-requests-enabled? @(re-frame/subscribe [:mutual-contact-requests/enabled?])
             max-bottom-space (max @bottom-space @panel-space)]
         [:<>
-         [topbar]
+        ;;  [topbar]
          [connectivity/loading-indicator]
          (when chat-id
            (if group-chat
