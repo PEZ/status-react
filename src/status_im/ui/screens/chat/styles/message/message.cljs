@@ -192,7 +192,7 @@
    :shadow-color   (:shadow-01 @colors/theme)
    :shadow-offset  {:width 0 :height 4}})
 
-(defn message-view-wrapper [outgoing]
+(def message-view-wrapper
   {:align-self :flex-end
    :flex-direction :row-reverse})
 

@@ -318,11 +318,11 @@
                :accessibility-label :chat-item}
    [react/view {:style          (style/message-body message)
                 :pointer-events :box-none}
-      [react/view (style/message-author-userpic outgoing)
-       (when last-in-group?
-         [react/touchable-highlight {:on-press #(do (when modal (close-modal))
-                                                    (re-frame/dispatch [:chat.ui/show-profile from]))}
-          [photos/member-photo from identicon]])]
+    [react/view (style/message-author-userpic outgoing)
+     (when last-in-group?
+       [react/touchable-highlight {:on-press #(do (when modal (close-modal))
+                                                  (re-frame/dispatch [:chat.ui/show-profile from]))}
+        [photos/member-photo from identicon]])]
     [react/view {:style (style/message-author-wrapper outgoing display-photo? in-popover?)}
      (when display-username?
        [react/view {:style {:flex-direction :row}}
@@ -449,7 +449,7 @@
         :label    (i18n/label :t/delete)
         :id       :delete}]))))
 
-(defn collapsible-text-message [{:keys [mentioned]} _]
+(defn collapsible-text-message [_ _]
   (let [collapsed?   (reagent/atom false)
         collapsible? (reagent/atom false)
         show-timestamp? (reagent/atom false)]
@@ -470,7 +470,7 @@
                                       (js/setTimeout #(on-long-press-fn on-long-press message content) 200))
                                   (on-long-press-fn on-long-press message content)))
             :disabled         in-popover?})
-         [react/view (style/message-view-wrapper outgoing)
+         [react/view style/message-view-wrapper
           [message-timestamp message show-timestamp?]
           [react/view {:style (style/message-view message)}
            [react/view {:style      (style/message-view-content)
@@ -530,7 +530,7 @@
                                                                :label    (i18n/label :t/sharing-copy-to-clipboard)}]
                                                              (when message-pin-enabled [{:on-press #(pin-message message)
                                                                                          :label    (if pinned (i18n/label :t/unpin) (i18n/label :t/pin))}]))))})
-             [react/view (style/message-view-wrapper outgoing)
+             [react/view style/message-view-wrapper
               [message-timestamp message show-timestamp?]
               [react/view (style/message-view message)
                [react/view {:style (style/message-view-content)}
@@ -610,7 +610,7 @@
                                         [])))
                 :on-press (fn []
                             (reset! show-timestamp? true))})
-             [react/view (style/message-view-wrapper (:outgoing message))
+             [react/view style/message-view-wrapper
               [message-timestamp message show-timestamp?]
               [react/view {:style (style/message-view message) :accessibility-label :audio-message}
                [react/view {:style (style/message-view-content)}

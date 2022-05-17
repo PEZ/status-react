@@ -220,6 +220,10 @@
 
            ;Home
            {:name      :home
+            :options       {:topBar     {:rightButtons (concat (right-button-options :scan :search)
+                                                               (right-button-options :profile :more)
+                                                               (right-button-options :activity-center :more))
+                                         :leftButtons (right-button-options :back :main-icons/arrow-left)}}
             :component home/home}
 
            ;Chat
@@ -227,7 +231,8 @@
             :options       {:popGesture false
                             :topBar     {:title        {:component {:name :chat-toolbar :id :chat-toolbar}
                                                         :alignment :fill}
-                                         :rightButtons [(right-button-options :chat-search :search)]}}
+                                         :rightButtons (right-button-options :chat-search :search)
+                                         :leftButtons (right-button-options :back :main-icons/arrow-left)}}
             :component     chat/chat}
 
            ;Pinned messages

@@ -23,7 +23,9 @@
             [status-im.ui.screens.chat.sheets :as sheets]
             [status-im.ui.components.tabbar.core :as tabbar]
             [status-im.ui.components.invite.views :as invite]
-            [status-im.utils.config :as config])
+            [status-im.utils.config :as config]
+            ["react-native-navigation" :refer (Navigation)]
+            [quo2.components.text :as quo2.text])
   (:require-macros [status-im.utils.views :as views]))
 
 (defn home-tooltip-view []
@@ -165,7 +167,7 @@
   (views/letsubs [notif-count [:activity.center/notifications-count]]
     [react/view
      [quo/button {:type     :icon
-                  :style {:margin-left 10}
+                  :style {:width 32 :height 32 :margin-left 12 :background-color "#EDF2F4" :border-radius 10}
                   :accessibility-label "notifications-button"
                   :on-press #(do
                                (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
@@ -178,14 +180,74 @@
         [react/view {:style               styles/counter-public
                      :accessibility-label :notifications-unread-badge}]])]))
 
+(views/defview qr-button []
+  (views/letsubs [notif-count [:activity.center/notifications-count]]
+    [react/view
+     [quo/button {:type     :icon
+                  :style {:width 32 :height 32 :margin-left 12 :background-color "#EDF2F4" :border-radius 10}
+                  :accessibility-label "notifications-button"
+                  :on-press #(do
+                               (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
+                               (re-frame/dispatch [:navigate-to :notifications-center]))
+                  :theme    :icon}
+      :main-icons/qr]
+     (when (pos? notif-count)
+       [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
+                    :pointer-events :none}
+        [react/view {:style               styles/counter-public
+                     :accessibility-label :notifications-unread-badge}]])]))
+
+(views/defview scan-button []
+  (views/letsubs [notif-count [:activity.center/notifications-count]]
+    [react/view
+     [quo/button {:type     :icon
+                  :style {:width 32 :height 32 :background-color "#EDF2F4" :border-radius 10}
+                  :accessibility-label "notifications-button"
+                  :on-press #(do
+                               (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
+                               (re-frame/dispatch [:navigate-to :notifications-center]))
+                  :theme    :icon}
+      :main-icons/qr]
+     (when (pos? notif-count)
+       [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
+                    :pointer-events :none}
+        [react/view {:style               styles/counter-public
+                     :accessibility-label :notifications-unread-badge}]])]))
+
+(views/defview profile-button []
+  (views/letsubs [notif-count [:activity.center/notifications-count]]
+    [react/view
+     [quo/button {:type     :icon
+                  :style {:width 32 :height 32 :background-color "#EDF2F4" :border-radius 16}
+                  :accessibility-label "notifications-button"
+                  :on-press #(do
+                               (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
+                               (re-frame/dispatch [:navigate-to :notifications-center]))
+                  :theme    :icon}
+      :main-icons/close-circle]
+     (when (pos? notif-count)
+       [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
+                    :pointer-events :none}
+        [react/view {:style               styles/counter-public
+                     :accessibility-label :notifications-unread-badge}]])]))
+
 (defn home []
-  [react/keyboard-avoiding-view {:style {:flex 1}
-                                 :ignore-offset true}
-   [topbar/topbar {:title           (i18n/label :t/chat)
-                   :navigation      :none
-                   :right-component [react/view {:flex-direction :row :margin-right 16}
-                                     [connectivity/connectivity-button]
-                                     [notifications-button]]}]
-   [chats-list]
-   [plus-button]
-   [tabbar/tabs-counts-subscriptions]])
+      [react/keyboard-avoiding-view {:style {:flex 1 :background-color "#F5F9FA"}
+                                     :ignore-offset true}
+       [topbar/topbar {:navigation      :none
+                       :background "#F5F9FA"
+                       :left-component [react/view {:flex-direction :row :margin-left 16}
+                                        [profile-button]]
+                       :right-component [react/view {:flex-direction :row :margin-right 16}
+                                         [connectivity/connectivity-button]
+                                         [scan-button]
+                                         [qr-button]
+                                         [notifications-button]]}]
+       [react/view {:flex-direction :row
+                    :align-items :space-between
+                    :margin-horizontal 16
+                    :margin-top 5}
+        [quo2.text/text {:size :heading-1 :weight :semi-bold} "Messages"]
+        [plus-button]]
+       [chats-list]
+       [tabbar/tabs-counts-subscriptions]])
