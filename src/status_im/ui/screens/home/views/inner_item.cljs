@@ -12,7 +12,9 @@
             [status-im.ui.components.icons.icons :as icons]
             [status-im.utils.core :as utils]
             [status-im.utils.datetime :as time]
-            [status-im.ui.components.chat-icon.styles :as chat-icon.styles]))
+            [status-im.ui.components.chat-icon.styles :as chat-icon.styles]
+            [quo2.components.text :as quo2.text]
+            [status-im.utils.utils :as utils.utils]))
 
 (defn preview-label [label-key label-fn]
   [react/text {:style               styles/last-message-text
@@ -151,13 +153,13 @@
     [icons/icon :main-icons/tiny-new-contact (icon-style)]))
 
 (defn chat-item-title [chat-id muted group-chat chat-name edit?]
-  [quo/text {:weight              :medium
+  [quo/text {:weight              :semi-bold
              :color               (when muted :secondary)
              :accessibility-label :chat-name-text
              :ellipsize-mode      :tail
              :number-of-lines     1
              :style               {:position :absolute
-                                   :left     92
+                                   :left     72
                                    :top      10
                                    :right    (if edit? 50 90)}}
    (if group-chat
@@ -168,11 +170,10 @@
      (first @(re-frame/subscribe [:contacts/contact-two-names-by-identity chat-id])))])
 
 (defn home-list-item [home-item opts]
-  (let [{:keys [chat-id chat-name color group-chat public? timestamp last-message muted emoji highlight edit?]} home-item
+  (let [{:keys [chat-id chat-name color group-chat muted emoji highlight edit?]} home-item
         background-color (when highlight (colors/get-color :interactive-02))]
     [react/touchable-opacity (merge {:style {:height 64 :background-color background-color}} opts)
      [:<>
-      [chat-item-icon muted (and group-chat (not public?)) (and group-chat public?)]
       [chat-icon.screen/emoji-chat-icon-view chat-id group-chat chat-name emoji
        {:container              (assoc chat-icon.styles/container-chat-list
                                        :top 12 :left 16 :position :absolute)
@@ -185,12 +186,10 @@
       [chat-item-title chat-id muted group-chat chat-name edit?]
       (when-not edit?
         [:<>
-         [react/text {:style               styles/datetime-text
-                      :number-of-lines     1
-                      :accessibility-label :last-message-time-text}
-          ;;TODO (perf) move to event
-          (memo-timestamp (if (pos? (:whisper-timestamp last-message))
-                            (:whisper-timestamp last-message)
-                            timestamp))]
          [unviewed-indicator home-item]])
-      [message-content-text (select-keys last-message [:content :content-type :community-id]) true]]]))
+      [react/view {:position :absolute :left 72 :top 32 :right 80}
+       (if group-chat [quo2.text/text "8 members"] [quo/text {:monospace       true
+                                                              :color           :secondary
+                                                              :number-of-lines 1
+                                                              :ellipsize-mode  :middle}
+                                                    (utils.utils/get-shortened-address chat-id)])]]]))
