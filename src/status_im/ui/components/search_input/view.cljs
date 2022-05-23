@@ -19,9 +19,10 @@
                        :show-cancel         true
                        :auto-correct        false
                        :auto-capitalize     :none
-                       :input-style         {:height         36
+                       :input-style         {:height         32
                                              :padding-top    2
-                                             :padding-bottom 2}
+                                             :padding-bottom 2
+                                             :background-color :white}
                        :before              {:icon      :main-icons/search
                                              :style     {:padding-horizontal 8}
                                              :on-press  #(some-> ^js @input-ref (.focus))

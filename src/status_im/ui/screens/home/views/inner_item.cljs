@@ -119,7 +119,7 @@
                                   unviewed-messages-count
                                   public?]}]
   (when (pos? unviewed-messages-count)
-    [react/view {:position :absolute :right 16 :bottom 12}
+    [react/view {:position :absolute :right 16}
      (cond
        (and public? (not (pos? unviewed-mentions-count)))
        [react/view {:style               styles/public-unread
@@ -170,14 +170,16 @@
      (first @(re-frame/subscribe [:contacts/contact-two-names-by-identity chat-id])))])
 
 (defn home-list-item [home-item opts]
-  (let [{:keys [chat-id chat-name color group-chat muted emoji highlight edit?]} home-item
+  (let [{:keys [chat-id chat-name color group-chat muted emoji highlight edit? unviewed-messages-count contacts]} home-item
         background-color (when highlight (colors/get-color :interactive-02))]
     [react/touchable-opacity (merge {:style {:height 64 :background-color background-color}} opts)
      [:<>
+      (when (pos? unviewed-messages-count)
+        [react/view {:position :absolute :top 1 :left 8 :right 8 :bottom 1 :border-radius 16 :background-color "#4360DF0D"}])
       [chat-icon.screen/emoji-chat-icon-view chat-id group-chat chat-name emoji
        {:container              (assoc chat-icon.styles/container-chat-list
-                                       :top 12 :left 16 :position :absolute)
-        :size                   40
+                                       :top 12 :left 20 :position :absolute)
+        :size                   32
         :chat-icon              chat-icon.styles/chat-icon-chat-list
         :default-chat-icon      (chat-icon.styles/default-chat-icon-chat-list color)
         :default-chat-icon-text (if (string/blank? emoji)
@@ -185,11 +187,22 @@
                                   (chat-icon.styles/emoji-chat-icon-text 40))}]
       [chat-item-title chat-id muted group-chat chat-name edit?]
       (when-not edit?
-        [:<>
+        [react/view {:height "100%" :justify-content :center}
          [unviewed-indicator home-item]])
       [react/view {:position :absolute :left 72 :top 32 :right 80}
-       (if group-chat [quo2.text/text "8 members"] [quo/text {:monospace       true
-                                                              :color           :secondary
-                                                              :number-of-lines 1
-                                                              :ellipsize-mode  :middle}
-                                                    (utils.utils/get-shortened-address chat-id)])]]]))
+       (if group-chat [react/view {:flex-direction :row
+                                   :flex           1
+                                   :padding-right  16
+                                   :align-items    :center}
+                       [icons/icon :main-icons/tiny-group
+                        {:color           colors/black
+                         :width           14
+                         :height          14
+                         :container-style {:width        14
+                                           :height       14
+                                           :margin-right 5}}]
+                       [quo2.text/text (i18n/label :t/members-count {:count (count contacts)})]] [quo/text {:monospace       true
+                                                                                                            :color           :secondary
+                                                                                                            :number-of-lines 1
+                                                                                                            :ellipsize-mode  :middle}
+                                                                                                  (utils.utils/get-shortened-address chat-id)])]]]))
