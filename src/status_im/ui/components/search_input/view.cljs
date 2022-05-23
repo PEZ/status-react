@@ -19,14 +19,19 @@
                        :show-cancel         true
                        :auto-correct        false
                        :auto-capitalize     :none
+                       :container-style               {:border-radius 10
+                                                       :border-width 1
+                                                       :border-color "#EDF2F4"
+                                                       :overflow :hidden}
                        :input-style         {:height         32
                                              :padding-top    2
                                              :padding-bottom 2
                                              :background-color :white}
                        :before              {:icon      :main-icons/search
-                                             :style     {:padding-horizontal 8}
+                                             :style     {:padding-horizontal 8
+                                                         :background-color :white}
                                              :on-press  #(some-> ^js @input-ref (.focus))
-                                             :icon-opts {:color (:icon-02  @colors/theme)}}
+                                             :icon-opts {:color (:icon-01  @colors/theme)}}
                        :on-focus            #(do
                                                (when on-focus
                                                  (on-focus search-filter))

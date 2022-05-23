@@ -244,9 +244,11 @@
                                          [qr-button]
                                          [notifications-button]]}]
        [react/view {:flex-direction :row
-                    :align-items :space-between
+                    :justify-content :space-between
+                    :align-items :center
                     :margin-horizontal 16
-                    :margin-top 5}
+                    :margin-top 15
+                    :margin-bottom 8}
         [quo2.text/text {:size :heading-1 :weight :semi-bold} "Messages"]
         [plus-button]]
        [chats-list]

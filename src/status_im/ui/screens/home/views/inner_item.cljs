@@ -175,7 +175,7 @@
     [react/touchable-opacity (merge {:style {:height 64 :background-color background-color}} opts)
      [:<>
       (when (pos? unviewed-messages-count)
-        [react/view {:position :absolute :top 1 :left 8 :right 8 :bottom 1 :border-radius 16 :background-color "#4360DF0D"}])
+        [react/view {:position :absolute :top 2 :left 8 :right 8 :bottom 2 :border-radius 16 :background-color "#4360DF0D"}])
       [chat-icon.screen/emoji-chat-icon-view chat-id group-chat chat-name emoji
        {:container              (assoc chat-icon.styles/container-chat-list
                                        :top 12 :left 20 :position :absolute)
