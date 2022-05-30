@@ -25,7 +25,10 @@
             [status-im.ui.components.invite.views :as invite]
             [status-im.utils.config :as config]
             ["react-native-navigation" :refer (Navigation)]
-            [quo2.components.text :as quo2.text])
+            [quo2.components.text :as quo2.text]
+            [status-im.qr-scanner.core :as qr-scanner]
+            [status-im.ui.components.chat-icon.screen :as chat-icon.screen]
+            [status-im.ui.components.chat-icon.styles :as chat-icon.styles])
   (:require-macros [status-im.utils.views :as views]))
 
 (defn home-tooltip-view []
@@ -187,8 +190,8 @@
                   :style {:width 32 :height 32 :margin-left 12 :background-color "#EDF2F4" :border-radius 10}
                   :accessibility-label "notifications-button"
                   :on-press #(do
-                               (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
-                               (re-frame/dispatch [:navigate-to :notifications-center]))
+                               (re-frame/dispatch [::qr-scanner/scan-code
+                                                   {:handler ::qr-scanner/on-scan-success}]))
                   :theme    :icon}
       :main-icons/qr]
      (when (pos? notif-count)
@@ -204,10 +207,10 @@
                   :style {:width 32 :height 32 :background-color "#EDF2F4" :border-radius 10}
                   :accessibility-label "notifications-button"
                   :on-press #(do
-                               (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
-                               (re-frame/dispatch [:navigate-to :notifications-center]))
+                               (re-frame/dispatch [::qr-scanner/scan-code
+                                                   {:handler ::qr-scanner/on-scan-success}]))
                   :theme    :icon}
-      :main-icons/qr]
+      :main-icons/scan]
      (when (pos? notif-count)
        [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
                     :pointer-events :none}
@@ -215,21 +218,11 @@
                      :accessibility-label :notifications-unread-badge}]])]))
 
 (views/defview profile-button []
-  (views/letsubs [notif-count [:activity.center/notifications-count]]
+  (views/letsubs [{:keys [public-key preferred-name emoji]} [:multiaccount]]
     [react/view
-     [quo/button {:type     :icon
-                  :style {:width 32 :height 32 :background-color "#EDF2F4" :border-radius 16}
-                  :accessibility-label "notifications-button"
-                  :on-press #(do
-                               (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
-                               (re-frame/dispatch [:navigate-to :notifications-center]))
-                  :theme    :icon}
-      :main-icons/close-circle]
-     (when (pos? notif-count)
-       [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
-                    :pointer-events :none}
-        [react/view {:style               styles/counter-public
-                     :accessibility-label :notifications-unread-badge}]])]))
+     [chat-icon.screen/emoji-chat-icon-view public-key false preferred-name emoji
+      {:size                   28
+       :chat-icon              chat-icon.styles/chat-icon-chat-list}]]))
 
 (defn home []
       [react/keyboard-avoiding-view {:style {:flex 1 :background-color "#F5F9FA"}
@@ -239,7 +232,6 @@
                        :left-component [react/view {:flex-direction :row :margin-left 16}
                                         [profile-button]]
                        :right-component [react/view {:flex-direction :row :margin-right 16}
-                                         [connectivity/connectivity-button]
                                          [scan-button]
                                          [qr-button]
                                          [notifications-button]]}]

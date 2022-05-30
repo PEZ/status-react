@@ -226,6 +226,6 @@
     (reset! theme-type type)))
 
 ;; Colors related to Visibility Status
-(def color-online "#7CDA00")
+(def color-online "#26A69A")
 (def color-dnd "#FA6565")
 (def color-inactive "#939BA1")

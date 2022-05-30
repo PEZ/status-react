@@ -4,8 +4,7 @@
 
 (defn default-chat-icon [color]
   {:margin           0
-   :width            40
-   :height           40
+   :width            2 ':height           40
    :align-items      :center
    :justify-content  :center
    :border-radius    20
@@ -41,15 +40,15 @@
    :margin-top  (emoji-utils/emoji-top-margin-for-vertical-alignment size)})  ;; Required for vertical alignment bug - Check function defination for more info
 
 (def chat-icon
-  {:margin        4
+  {:margin        0
    :border-radius 20
    :width         40
    :height        40})
 
 (def chat-icon-chat-list
   (merge chat-icon
-         {:width  40
-          :height 40
+         {:width  28
+          :height 28
           :margin 0}))
 
 (def chat-icon-chat-toolbar

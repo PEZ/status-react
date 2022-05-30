@@ -77,11 +77,11 @@
     (<sub [:multiaccount/current-user-visibility-status])
     (<sub [:visibility-status-updates/visibility-status-update public-key])))
 
-(defn icon-visibility-status-dot [public-key container-size identicon?]
+(defn icon-visibility-status-dot [public-key container-size _]
   (let [my-icon?                 (my-icon? public-key)
         visibility-status-update (visibility-status-update public-key my-icon?)
-        size                     (/ container-size 4)
-        margin                   (if identicon? (/ size 6) (/ size 7))
+        size                     (/ container-size 2.4)
+        margin                   -2
         dot-color                (dot-color visibility-status-update my-icon?)
         accessibility-label      (if (= dot-color colors/color-online)
                                    :online-profile-photo-dot
