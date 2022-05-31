@@ -24,7 +24,6 @@
             [status-im.ui.components.tabbar.core :as tabbar]
             [status-im.ui.components.invite.views :as invite]
             [status-im.utils.config :as config]
-            ["react-native-navigation" :refer (Navigation)]
             [quo2.components.text :as quo2.text]
             [status-im.qr-scanner.core :as qr-scanner]
             [status-im.ui.components.chat-icon.screen :as chat-icon.screen]

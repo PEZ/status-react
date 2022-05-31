@@ -34,7 +34,6 @@
             [status-im.constants :as constants]
             [status-im.utils.platform :as platform]
             [status-im.utils.utils :as utils]
-            [status-im.ui.screens.chat.sheets :as sheets]
             [status-im.utils.debounce :as debounce]
             [status-im.navigation.state :as navigation.state]
             [status-im.react-native.resources :as resources]))
@@ -408,24 +407,11 @@
     (re-frame/dispatch [:navigate-back])))
 
 (defn topbar []
-  ;;we don't use topbar component, because we want chat view as simple (fast) as possible
-  [react/view {:height 56}
-   [react/touchable-highlight {:on-press-in navigate-back-handler
-                               :accessibility-label :back-button
-                               :style {:height 56 :width 40 :align-items :center :justify-content :center
-                                       :padding-left 16}}
-    [icons/icon :main-icons/arrow-left {:color colors/black}]]
-   [react/view {:flex 1 :left 52 :right 52 :top 0 :bottom 0 :position :absolute}
-    [topbar-content]]
-   [react/touchable-highlight {:on-press-in #(re-frame/dispatch [:bottom-sheet/show-sheet
-                                                                 {:content (fn []
-                                                                             [sheets/current-chat-actions])
-                                                                  :height  256}])
-                               :accessibility-label :chat-menu-button
-                               :style {:right 0 :top 0 :bottom 0 :position :absolute
-                                       :height 56 :width 40 :align-items :center :justify-content :center
-                                       :padding-right 16}}
-    [icons/icon :main-icons/more {:color colors/black}]]])
+  (let [window-width @(re-frame/subscribe [:dimensions/window-width])
+        {:keys [group-chat chat-id] :as chat-info} @(re-frame/subscribe [:chats/current-chat])]
+    [react/touchable-highlight {:on-press #(when-not group-chat (re-frame/dispatch [:chat.ui/show-profile chat-id]))
+                                :style {:flex 1 :width (- window-width 120)}}
+     [toolbar-content/toolbar-content-view-inner chat-info]]))
 
 (defn chat-render []
   (let [bottom-space (reagent/atom 0)
@@ -446,7 +432,6 @@
             mutual-contact-requests-enabled? @(re-frame/subscribe [:mutual-contact-requests/enabled?])
             max-bottom-space (max @bottom-space @panel-space)]
         [:<>
-        ;;  [topbar]
          [connectivity/loading-indicator]
          (when chat-id
            (if group-chat
