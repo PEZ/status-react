@@ -229,7 +229,7 @@
                                            :on-sliding-complete #(seek (merge base-params {:slider-new-state-seeking? false}) % true nil)})]]]
 
          [react/view style/times-container
-          [react/text {:style  (style/timestamp outgoing)}
+          [react/text {:style  (style/timestamp)}
            (let [time (cond
                         (or (:slider-seeking @state) (> (:seek-to-ms @state) 0)) (:seek-to-ms @state)
                         (#{:playing :paused :seeking}  (:general @state)) @progress

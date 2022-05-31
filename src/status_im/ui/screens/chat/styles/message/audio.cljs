@@ -42,6 +42,6 @@
   {:flex-direction :row
    :justify-content :space-between})
 
-(defn timestamp [outgoing]
-  (merge (message.style/audio-message-timestamp-text outgoing)
+(defn timestamp []
+  (merge (message.style/audio-message-timestamp-text)
          {:margin-left 40}))

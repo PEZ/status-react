@@ -6,8 +6,8 @@
             [status-im.ui.components.typography :as typography]))
 
 (defn style-message-text
-  [outgoing]
-  {:color (if outgoing colors/white-persist colors/text)})
+  []
+  {:color colors/text})
 
 (defn system-message-body
   [_]
@@ -18,9 +18,9 @@
    :align-items    :center})
 
 (defn message-body
-  [{:keys [outgoing]}]
-  (let [align     (if outgoing :flex-end :flex-start)
-        direction (if outgoing :row-reverse :row)]
+  []
+  (let [align     :flex-start
+        direction :row]
     {:flex-direction direction
      :margin-top     4
      :align-self     align
@@ -33,14 +33,10 @@
   []
   (merge message-timestamp {:opacity 0 :color "rgba(0,0,0,0)"}))
 
-(defn message-timestamp-wrapper [{:keys [last-in-group? outgoing group-chat]}]
+(defn message-timestamp-wrapper []
   {:justify-content :center
-   (if outgoing :margin-right :margin-left) 12 ;; horizontal margin is only required at the adjust side of the message.
-   :margin-top (if (and last-in-group?
-                        (or outgoing
-                            (not group-chat)))
-                 16
-                 0) ;; Add gap between message groups
+   :margin-left 12 ;; horizontal margin is only required at the adjust side of the message.
+   :margin-top 0
    :opacity 0})
 
 (defn message-timestamp-text []
@@ -48,43 +44,31 @@
          {:color       colors/gray
           :text-align :center}))
 
-(defn message-status-text [outgoing]
+(defn message-status-text []
   {:font-size 10
    :line-height 10
-   :color       (if outgoing
-                  colors/white-transparent-70-persist
-                  colors/gray)})
+   :color       colors/gray})
 
 (defn audio-message-timestamp-text
-  [outgoing]
+  []
   (merge message-timestamp
          {:line-height 10
-          :color       (if outgoing
-                         colors/white-transparent-70-persist
-                         colors/gray)}))
+          :color       colors/gray}))
 
-(defn message-wrapper [{:keys [outgoing in-popover?]}]
-  (if (and outgoing (not in-popover?))
-    {:margin-left 0}
+(defn message-wrapper [{:keys [in-popover?]}]
+  (if (not in-popover?)
+    {:margin-left 10}
     {:margin-right 10}))
 
-(defn message-author-wrapper
-  [outgoing display-photo? in-popover?]
-  (let [align (if (and outgoing (not in-popover?)) :flex-end :flex-start)]
-    (merge {:flex-direction :column
-            :flex-shrink    1
-            :align-items    align}
-           (if (and outgoing (not in-popover?))
-             {:margin-right 8}
-             (when-not display-photo?
-               {:margin-left 8})))))
+(defn message-author-wrapper []
+  {:flex-direction :column
+   :flex-shrink 1
+   :align-items :flex-start
+   :margin-left 4})
 
-(defn delivery-status [outgoing]
-  (if outgoing
-    {:align-self    :flex-end
-     :padding-right 8}
-    {:align-self    :flex-start
-     :padding-left  8}))
+(defn delivery-status []
+  {:align-self    :flex-start
+   :padding-left  8})
 
 (defn pin-indicator [outgoing display-photo?]
   (merge
@@ -148,13 +132,11 @@
   {:margin-left    0
    :flex-direction :row})
 
-(defn message-author-userpic [outgoing]
+(defn message-author-userpic []
   (merge
    {:width      (+ 16 photos/default-size)} ;; 16 is for the padding
-   (if outgoing
-     {:padding-left 8}
-     {:padding-horizontal 8
-      :padding-right      8})))
+   {:padding-left 8
+    :padding-right      8}))
 
 (def delivery-text
   {:color       colors/gray
@@ -177,10 +159,10 @@
    :padding-left 3})
 
 (defn emoji-message
-  [{:keys [incoming-group outgoing]}]
+  [{:keys [incoming-group]}]
   {:font-size    28
    :line-height  34                     ;TODO: Smaller crops the icon on the top
-   :margin-right (if outgoing 18 0) ;; Margin to display outgoing message status
+   :margin-right 0 ;; Margin to display outgoing message status
    :margin-top   (if incoming-group 4 0)})
 
 (defn collapse-button []
@@ -197,23 +179,18 @@
    :flex-direction :row-reverse})
 
 (defn message-view
-  [{:keys [content-type outgoing group-chat last-in-group? mentioned pinned]}]
+  [{:keys [content-type mentioned pinned]}]
   (merge
    {:border-top-left-radius     16
     :border-top-right-radius    16
     :border-bottom-right-radius 16
     :border-bottom-left-radius  16
     :padding-top                0
-    :margin-top                 (if (and last-in-group?
-                                         (or outgoing
-                                             (not group-chat)))
-                                  16
-                                  0)}
+    :margin-top                 0}
 
    (cond
      pinned                                             {:background-color colors/pin-background}
      (= content-type constants/content-type-system-text) nil
-     outgoing                                            {:background-color colors/white}
      mentioned                                           {:background-color colors/mentioned-background
                                                           :border-color colors/mentioned-border
                                                           :border-width 1}
@@ -256,22 +233,18 @@
    :align-items     :center
    :justify-content :flex-start})
 
-(defn quoted-message-author [outgoing chosen?]
+(defn quoted-message-author [chosen?]
   (assoc (message-author-name chosen?)
          :padding-bottom  6
          :padding-top     0
          :padding-left    0
          :line-height     18
          :font-weight    "500"
-         :color           (if outgoing
-                            colors/white-transparent-70-persist
-                            colors/gray)))
+         :color           colors/gray))
 
-(defn quoted-message-text [outgoing]
+(defn quoted-message-text []
   {:font-size 14
-   :color (if outgoing
-            colors/white-transparent-70-persist
-            colors/gray)})
+   :color colors/gray})
 
 ;; Markdown styles
 
@@ -383,12 +356,12 @@
     (default-blockquote-text-style)))
 
 (defn image-message
-  [{:keys [outgoing width height]}]
+  [{:keys [width height]}]
   {:overflow                   :hidden
    :border-top-left-radius     16
    :border-top-right-radius    16
-   :border-bottom-left-radius  (if outgoing 16 4)
-   :border-bottom-right-radius (if outgoing 4 16)
+   :border-bottom-left-radius  4
+   :border-bottom-right-radius 16
    :width                      width
    :height                     height})
 

@@ -225,23 +225,23 @@
        :chat-icon              chat-icon.styles/chat-icon-chat-list}]]))
 
 (defn home []
-      [react/keyboard-avoiding-view {:style {:flex 1 :background-color "#F5F9FA"}
-                                     :ignore-offset true}
-       [topbar/topbar {:navigation      :none
-                       :background "#F5F9FA"
-                       :left-component [react/view {:flex-direction :row :margin-left 16}
-                                        [profile-button]]
-                       :right-component [react/view {:flex-direction :row :margin-right 16}
-                                         [scan-button]
-                                         [qr-button]
-                                         [notifications-button]]}]
-       [react/view {:flex-direction :row
-                    :justify-content :space-between
-                    :align-items :center
-                    :margin-horizontal 16
-                    :margin-top 15
-                    :margin-bottom 8}
-        [quo2.text/text {:size :heading-1 :weight :semi-bold} "Messages"]
-        [plus-button]]
-       [chats-list]
-       [tabbar/tabs-counts-subscriptions]])
+  [react/keyboard-avoiding-view {:style {:flex 1 :background-color "#F5F9FA"}
+                                 :ignore-offset true}
+   [topbar/topbar {:navigation      :none
+                   :background "#F5F9FA"
+                   :left-component [react/view {:flex-direction :row :margin-left 16}
+                                    [profile-button]]
+                   :right-component [react/view {:flex-direction :row :margin-right 16}
+                                     [scan-button]
+                                     [qr-button]
+                                     [notifications-button]]}]
+   [react/view {:flex-direction :row
+                :justify-content :space-between
+                :align-items :center
+                :margin-horizontal 16
+                :margin-top 15
+                :margin-bottom 8}
+    [quo2.text/text {:size :heading-1 :weight :semi-bold} "Messages"]
+    [plus-button]]
+   [chats-list]
+   [tabbar/tabs-counts-subscriptions]])

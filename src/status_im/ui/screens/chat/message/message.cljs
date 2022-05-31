@@ -73,13 +73,13 @@
          :height              12
          :color               (if pinned colors/gray colors/white)
          :accessibility-label (name outgoing-status)}])
-     (when edited-at [react/text {:style (style/message-status-text (and outgoing (not pinned)))} edited-at-text])]))
+     (when edited-at [react/text {:style (style/message-status-text)} edited-at-text])]))
 
 (defn message-timestamp
-  [{:keys [timestamp-str in-popover?] :as message} show-timestamp?]
+  [{:keys [timestamp-str in-popover?]} show-timestamp?]
   (when-not in-popover? ;; We keep track if showing this message in a list in pin-limit-popover
     (let [anim-opacity (animation/create-value 0)]
-      [react/animated-view {:style (style/message-timestamp-wrapper message) :opacity anim-opacity}
+      [react/animated-view {:style (style/message-timestamp-wrapper) :opacity anim-opacity}
        (when @show-timestamp? (message-timestamp-anim anim-opacity show-timestamp?))
        [react/text
         {:style               (style/message-timestamp-text)
@@ -105,7 +105,7 @@
                                         :background-color :black
                                         :border-radius    4}
                                :source {:uri image}}]
-       [react/text {:style           (style/quoted-message-text (and outgoing (not pinned)))
+       [react/text {:style           (style/quoted-message-text)
                     :number-of-lines 5}
         (components.reply/get-quoted-text-with-mentions parsed-text)])]))
 
@@ -309,22 +309,22 @@
 
 (defn message-content-wrapper
   "Author, userpic and delivery wrapper"
-  [{:keys [last-in-group? display-photo? display-username?
+  [{:keys [last-in-group?
            identicon
-           from outgoing in-popover? timestamp-str]
+           from in-popover? timestamp-str]
     :as   message} content {:keys [modal close-modal]}]
   [react/view {:style               (style/message-wrapper message)
                :pointer-events      :box-none
                :accessibility-label :chat-item}
-   [react/view {:style          (style/message-body message)
+   [react/view {:style          (style/message-body)
                 :pointer-events :box-none}
-    [react/view (style/message-author-userpic outgoing)
+    [react/view (style/message-author-userpic)
      (when last-in-group?
        [react/touchable-highlight {:on-press #(do (when modal (close-modal))
                                                   (re-frame/dispatch [:chat.ui/show-profile from]))}
         [photos/member-photo from identicon]])]
-    [react/view {:style (style/message-author-wrapper outgoing display-photo? in-popover?)}
-     (when display-username?
+    [react/view {:style (style/message-author-wrapper)}
+     (when last-in-group?
        [react/view {:style {:flex-direction :row}}
         [react/touchable-opacity {:style    style/message-author-touchable
                                   :disabled in-popover?
@@ -339,9 +339,9 @@
          timestamp-str]])
      ;;MESSAGE CONTENT
      content
-     [link-preview/link-preview-wrapper (:links (:content message)) outgoing false]]]
+     [link-preview/link-preview-wrapper (:links (:content message)) false false]]]
    ; delivery status
-   [react/view (style/delivery-status outgoing)
+   [react/view (style/delivery-status)
     [message-delivery-status message]]])
 
 (def image-max-width 260)
@@ -534,7 +534,7 @@
               [message-timestamp message show-timestamp?]
               [react/view (style/message-view message)
                [react/view {:style (style/message-view-content)}
-                [react/view {:style (style/style-message-text outgoing)}
+                [react/view {:style (style/style-message-text)}
                  (when (and (seq response-to) (:quoted-message message))
                    [quoted-message response-to (:quoted-message message) outgoing current-public-key public? pinned])
                  [react/text {:style (style/emoji-message message)}

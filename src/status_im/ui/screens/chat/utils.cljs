@@ -12,6 +12,7 @@
   ([{:keys [names] :as contact} {:keys [modal profile? you?]}]
    (let [{:keys [nickname ens-name]} names
          [first-name second-name] (multiaccounts/contact-two-names contact false)]
+     (println contact "fdsfs")
      (if (or nickname ens-name)
        [react/nested-text {:number-of-lines 2
                            :style           {:color       (if modal colors/white-persist colors/black-light)

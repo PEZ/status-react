@@ -5,7 +5,7 @@
   {:flex        1
    :justify-content :center
    :margin-vertical 16
-   :padding-left 50})
+   :padding-left 65})
 
 (def divider
   {:flex        1

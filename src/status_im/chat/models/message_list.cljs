@@ -15,7 +15,6 @@
                                clock-value
                                message-type
                                from
-                               outgoing
                                whisper-timestamp]}]
   (-> {:whisper-timestamp whisper-timestamp
        :from from
@@ -25,7 +24,7 @@
        :clock-value clock-value
        :type :message
        :message-id message-id
-       :outgoing (boolean outgoing)}
+       :outgoing false}
       add-datemark
       add-timestamp))
 
