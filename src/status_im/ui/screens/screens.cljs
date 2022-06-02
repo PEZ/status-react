@@ -124,12 +124,12 @@
 
 (def components
   [{:name      :chat-toolbar
-    :component chat/topbar}])
+    :component chat/topbar-content}])
 
 (defn right-button-options [id icon]
   {:id   id
    :icon (icons/icon-source icon)
-   :iconBackground {:color "#EDF2F4"
+   :iconBackground {:color (:ui-background-03 @colors/theme)
                     :cornerRadius 10
                     :width 32
                     :height 32}})
@@ -229,11 +229,12 @@
 
            ;Chat
            {:name          :chat
-            :options       {:popGesture false
-                            :topBar     {:title        {:component {:name :chat-toolbar :id :chat-toolbar}
-                                                        :alignment :fill}
-                                         :rightButtons (right-button-options :chat-search :search)
-                                         :leftButtons (right-button-options :back :main-icons/arrow-left)}}
+            :options   {:topBar {:visible false}}
+            ;; :options       {:popGesture false
+            ;;                 :topBar     {:title        {:component {:name :chat-toolbar :id :chat-toolbar}
+            ;;                                             :alignment :fill}
+            ;;                              :rightButtons (right-button-options :chat-search :search)
+            ;;                              :leftButtons (right-button-options :back :main-icons/arrow-left)}}
             :component     chat/chat}
 
            ;Pinned messages

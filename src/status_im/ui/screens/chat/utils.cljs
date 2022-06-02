@@ -15,9 +15,10 @@
      (println contact "fdsfs")
      (if (or nickname ens-name)
        [react/nested-text {:number-of-lines 2
-                           :style           {:color       (if modal colors/white-persist colors/black-light)
+                           :style           {:color       (if modal colors/white-persist colors/black)
                                              :font-size   (if profile? 15 13)
                                              :line-height (if profile? 22 18)
+                                             :letter-spacing -0.2
                                              :font-weight "600"}}
         (subs first-name 0 81)
         (when you?
@@ -26,10 +27,11 @@
         (when nickname
           [{:style {:color colors/black-light :font-weight "500"}}
            (str " " (subs second-name 0 81))])]
-       [react/text {:style {:color       (if modal colors/white-persist colors/black-light)
+       [react/text {:style {:color       (if modal colors/white-persist colors/black)
                             :font-size   (if profile? 15 13)
                             :line-height (if profile? 22 18)
-                            :font-weight "600"}}
+                            :font-weight "600"
+                            :letter-spacing -0.2}}
         first-name]))))
 
 (defn format-reply-author [from username current-public-key style outgoing]

@@ -30,10 +30,13 @@
    :interactive-03 "rgba(255,255,255,0.1)" ; Background for interactive above accent
    :interactive-04 "rgba(147,155,161,1)"   ; Disabled state
    :ui-background  "rgba(255,255,255,1)"   ; Default view background
+   :ui-background-02   "rgba(245,249,250,1)"   ; Default view background
+   :ui-background-03   "rgba(230,237,240,1)"   ; Default view background
    :ui-01          "rgba(238,242,245,1)"   ; Secondary background
    :ui-02          "rgba(0,0,0,0.1)"       ; Deviders
    :ui-03          "rgba(0,0,0,0.86)"      ; Dark background
-   :text-01        "rgba(0,0,0,1)"         ; Main text color
+   :ui-04          "rgba(237, 242, 244, 1)"
+   :text-01        "rgba(4,11,20,1)"         ; Main text color
    :text-02        "rgba(147,155,161,1)"   ; Secondary text
    :text-03        "rgba(255,255,255,0.7)" ; Secondary on accent
    :text-04        "rgba(67,96,223,1)"     ; Links text color
@@ -59,14 +62,17 @@
    :negative-02    "rgba(252,95,95,0.1)"
    :warning-01     "rgba(255, 202, 15, 1)"
    :warning-02     "rgba(255, 202, 15, 0.1)"
-   :interactive-01 "rgba(97,119,229,1)"
+   :interactive-01 "rgba(67,96,223,1)"
    :interactive-02 "rgba(35,37,47,1)"
    :interactive-03 "rgba(255,255,255,0.1)"
    :interactive-04 "rgba(131,140,145,1)"
-   :ui-background  "rgba(20,20,20,1)"
+   :ui-background  "rgba(24,28,36,1)"
+   :ui-background-02  "rgba(4,11,20,1)"
+   :ui-background-03  "rgba(14, 22, 32, 1)"
    :ui-01          "rgba(37,37,40,1)"
    :ui-02          "rgba(0,0,0,0.1)"
    :ui-03          "rgba(0,0,0,0.86)"
+   :ui-04          "rgba(23, 34, 46, 1)"
    :text-01        "rgba(255,255,255,1)"
    :text-02        "rgba(131,140,145,1)"
    :text-03        "rgba(255,255,255,0.7)"

@@ -169,7 +169,7 @@
   (views/letsubs [notif-count [:activity.center/notifications-count]]
     [react/view
      [quo/button {:type     :icon
-                  :style {:width 32 :height 32 :margin-left 12 :background-color "#EDF2F4" :border-radius 10}
+                  :style {:width 32 :height 32 :margin-left 12 :background-color (:ui-background-03 @colors/theme) :border-radius 10}
                   :accessibility-label "notifications-button"
                   :on-press #(do
                                (re-frame/dispatch [:mark-all-activity-center-notifications-as-read])
@@ -183,38 +183,26 @@
                      :accessibility-label :notifications-unread-badge}]])]))
 
 (views/defview qr-button []
-  (views/letsubs [notif-count [:activity.center/notifications-count]]
-    [react/view
-     [quo/button {:type     :icon
-                  :style {:width 32 :height 32 :margin-left 12 :background-color "#EDF2F4" :border-radius 10}
-                  :accessibility-label "notifications-button"
-                  :on-press #(do
-                               (re-frame/dispatch [::qr-scanner/scan-code
-                                                   {:handler ::qr-scanner/on-scan-success}]))
-                  :theme    :icon}
-      :main-icons/qr]
-     (when (pos? notif-count)
-       [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
-                    :pointer-events :none}
-        [react/view {:style               styles/counter-public
-                     :accessibility-label :notifications-unread-badge}]])]))
+  [react/view
+   [quo/button {:type     :icon
+                :style {:width 32 :height 32 :margin-left 12 :background-color (:ui-background-03 @colors/theme) :border-radius 10}
+                :accessibility-label "notifications-button"
+                :on-press #(do
+                             (re-frame/dispatch [::qr-scanner/scan-code
+                                                 {:handler ::qr-scanner/on-scan-success}]))
+                :theme    :icon}
+    :main-icons/qr]])
 
 (views/defview scan-button []
-  (views/letsubs [notif-count [:activity.center/notifications-count]]
-    [react/view
-     [quo/button {:type     :icon
-                  :style {:width 32 :height 32 :background-color "#EDF2F4" :border-radius 10}
-                  :accessibility-label "notifications-button"
-                  :on-press #(do
-                               (re-frame/dispatch [::qr-scanner/scan-code
-                                                   {:handler ::qr-scanner/on-scan-success}]))
-                  :theme    :icon}
-      :main-icons/scan]
-     (when (pos? notif-count)
-       [react/view {:style (merge (styles/counter-public-container) {:top 5 :right 5})
-                    :pointer-events :none}
-        [react/view {:style               styles/counter-public
-                     :accessibility-label :notifications-unread-badge}]])]))
+  [react/view
+   [quo/button {:type     :icon
+                :style {:width 32 :height 32 :background-color (:ui-background-03 @colors/theme) :border-radius 10}
+                :accessibility-label "notifications-button"
+                :on-press #(do
+                             (re-frame/dispatch [::qr-scanner/scan-code
+                                                 {:handler ::qr-scanner/on-scan-success}]))
+                :theme    :icon}
+    :main-icons/scan]])
 
 (views/defview profile-button []
   (views/letsubs [{:keys [public-key preferred-name emoji]} [:multiaccount]]
@@ -224,16 +212,17 @@
        :chat-icon              chat-icon.styles/chat-icon-chat-list}]]))
 
 (defn home []
-  [react/keyboard-avoiding-view {:style {:flex 1 :background-color "#F5F9FA"}
+  [react/keyboard-avoiding-view {:style {:flex 1 :background-color (:ui-background-02 @colors/theme)}
                                  :ignore-offset true}
    [topbar/topbar {:navigation      :none
-                   :background "#F5F9FA"
+                   :background (:ui-background-02 @colors/theme)
                    :left-component [react/view {:flex-direction :row :margin-left 16}
                                     [profile-button]]
                    :right-component [react/view {:flex-direction :row :margin-right 16}
                                      [scan-button]
                                      [qr-button]
-                                     [notifications-button]]}]
+                                     [notifications-button]]
+                   :border-bottom false}]
    [react/view {:flex-direction :row
                 :justify-content :space-between
                 :align-items :center

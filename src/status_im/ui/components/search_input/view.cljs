@@ -21,15 +21,16 @@
                        :auto-capitalize     :none
                        :container-style               {:border-radius 10
                                                        :border-width 1
-                                                       :border-color "#EDF2F4"
+                                                       :border-color (:ui-01  @colors/theme)
+                                                       :background-color (:ui-background-03  @colors/theme)
                                                        :overflow :hidden}
                        :input-style         {:height         32
                                              :padding-top    2
                                              :padding-bottom 2
-                                             :background-color :white}
+                                             :background-color (:ui-background-03  @colors/theme)}
                        :before              {:icon      :main-icons/search
                                              :style     {:padding-horizontal 8
-                                                         :background-color :white}
+                                                         :background-color (:ui-background-03  @colors/theme)}
                                              :on-press  #(some-> ^js @input-ref (.focus))
                                              :icon-opts {:color (:icon-01  @colors/theme)}}
                        :on-focus            #(do

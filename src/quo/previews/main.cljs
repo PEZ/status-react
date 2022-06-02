@@ -69,7 +69,7 @@
   [rn/scroll-view {:flex               1
                    :padding-vertical   8
                    :padding-horizontal 16
-                   :background-color   (:ui-background @colors/theme)}
+                   :background-color   (:ui-background-03 @colors/theme)}
    [theme-switcher]
    [rn/view
     (for [{:keys [name]} screens]

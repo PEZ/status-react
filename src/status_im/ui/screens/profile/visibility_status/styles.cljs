@@ -18,8 +18,8 @@
    :width            size
    :height           size
    :border-radius    (/ size 2)
-   :border-width     4
-   :border-color     "#F5F9FA"})
+   :border-width     3.5
+   :border-color     (:ui-background  @colors/theme)})
 
 (defn visibility-status-profile-dot [color size border-width margin-left]
   (merge (visibility-status-dot color size)

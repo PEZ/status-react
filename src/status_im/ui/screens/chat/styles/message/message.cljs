@@ -357,13 +357,10 @@
 
 (defn image-message
   [{:keys [width height]}]
-  {:overflow                   :hidden
-   :border-top-left-radius     16
-   :border-top-right-radius    16
-   :border-bottom-left-radius  4
-   :border-bottom-right-radius 16
-   :width                      width
-   :height                     height})
+  {:overflow      :hidden
+   :border-radius 8
+   :width         width
+   :height        height})
 
 (defn image-message-border [opts]
   (merge (image-message opts)

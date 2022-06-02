@@ -7,12 +7,12 @@
    :margin-vertical 16
    :padding-left 65})
 
-(def divider
-  {:flex        1
-   :width           "100%"
-   :height          1
+(defn divider []
+  {:flex 1
+   :width "100%"
+   :height 1
    :padding-left 53
-   :background-color (:ui-01 @colors/theme)
+   :background-color (:ui-04 @colors/theme)
    :margin-top 5})
 
 (defn datemark-text []

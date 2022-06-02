@@ -20,18 +20,20 @@
     label
     (assoc :label label)))
 
-(defn topbar [{:keys [navigation use-insets right-accessories modal? content]
+(defn topbar [{:keys [navigation use-insets right-accessories modal? content border-bottom?]
                :as   props}]
   (let [navigation (if (= navigation :none)
                      nil
-                     [(default-navigation modal? navigation)])]
+                     [(default-navigation modal? navigation)])
+        border-bottom (if (nil? border-bottom?) true border-bottom?)]
     [quo/safe-area-consumer
      (fn [insets]
        [quo/header (merge {:left-accessories navigation
                            :title-component  content
                            :insets           (when use-insets insets)
                            :left-width       (when navigation
-                                               default-button-width)}
+                                               default-button-width)
+                           :border-bottom    border-bottom}
                           props
                           (when (seq right-accessories)
                             {:right-accessories right-accessories}))])]))

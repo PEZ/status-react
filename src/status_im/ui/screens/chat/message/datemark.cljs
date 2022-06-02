@@ -11,4 +11,4 @@
 
     [react/text {:style (style/datemark-text)}
      (string/capitalize value)]
-    [react/view style/divider]]])
+    [react/view (style/divider)]]])

@@ -12,7 +12,7 @@
 (defn action-button []
   {:width            40
    :height           40
-   :background-color colors/blue
+   :background-color (:interactive-01 @colors/theme)
    :border-radius    20
    :align-items      :center
    :justify-content  :center})

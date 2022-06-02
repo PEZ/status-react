@@ -3,7 +3,7 @@
 
 (def default-font-family "Inter")
 (defn default-style []
-  {:color       colors/black-light
+  {:color       colors/black
    :font-weight "400"
    :font-size   15
    :line-height 20})
