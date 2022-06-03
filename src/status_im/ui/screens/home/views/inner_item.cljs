@@ -170,7 +170,7 @@
      (first @(re-frame/subscribe [:contacts/contact-two-names-by-identity chat-id])))])
 
 (defn home-list-item [home-item opts]
-  (let [{:keys [chat-id chat-name color group-chat muted emoji highlight edit? unviewed-messages-count contacts]} home-item
+  (let [{:keys [chat-id chat-name color group-chat muted emoji highlight edit? public? unviewed-messages-count contacts]} home-item
         background-color (when highlight (colors/get-color :interactive-02))]
     [react/touchable-opacity (merge {:style {:height 64 :background-color background-color}} opts)
      [:<>
@@ -190,19 +190,25 @@
         [react/view {:height "100%" :justify-content :center}
          [unviewed-indicator home-item]])
       [react/view {:position :absolute :left 72 :top 32 :right 80}
-       (if group-chat [react/view {:flex-direction :row
-                                   :flex           1
-                                   :padding-right  16
-                                   :align-items    :center}
-                       [icons/icon :main-icons/tiny-group
-                        {:color           colors/black
-                         :width           14
-                         :height          14
-                         :container-style {:width        14
-                                           :height       14
-                                           :margin-right 5}}]
-                       [quo2.text/text (i18n/label :t/members-count {:count (count contacts)})]] [quo/text {:monospace       true
-                                                                                                            :color           :secondary
-                                                                                                            :number-of-lines 1
-                                                                                                            :ellipsize-mode  :middle}
-                                                                                                  (utils.utils/get-shortened-address chat-id)])]]]))
+       (if public?
+         [quo/text {:monospace       true
+                    :color           :secondary
+                    :number-of-lines 1
+                    :ellipsize-mode  :middle}
+          "Public"]
+         (if group-chat [react/view {:flex-direction :row
+                                     :flex           1
+                                     :padding-right  16
+                                     :align-items    :center}
+                         [icons/icon :main-icons/tiny-group
+                          {:color           colors/black
+                           :width           14
+                           :height          14
+                           :container-style {:width        14
+                                             :height       14
+                                             :margin-right 5}}]
+                         [quo2.text/text (i18n/label :t/members-count {:count (count contacts)})]] [quo/text {:monospace       true
+                                                                                                              :color           :secondary
+                                                                                                              :number-of-lines 1
+                                                                                                              :ellipsize-mode  :middle}
+                                                                                                    (utils.utils/get-shortened-address chat-id)]))]]]))

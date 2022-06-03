@@ -186,7 +186,7 @@
   [react/view
    [quo/button {:type     :icon
                 :style {:width 32 :height 32 :margin-left 12 :background-color (:ui-background-03 @colors/theme) :border-radius 10}
-                :accessibility-label "notifications-button"
+                :accessibility-label "qr-button"
                 :on-press #(do
                              (re-frame/dispatch [::qr-scanner/scan-code
                                                  {:handler ::qr-scanner/on-scan-success}]))
@@ -197,7 +197,7 @@
   [react/view
    [quo/button {:type     :icon
                 :style {:width 32 :height 32 :background-color (:ui-background-03 @colors/theme) :border-radius 10}
-                :accessibility-label "notifications-button"
+                :accessibility-label "scan-button"
                 :on-press #(do
                              (re-frame/dispatch [::qr-scanner/scan-code
                                                  {:handler ::qr-scanner/on-scan-success}]))
