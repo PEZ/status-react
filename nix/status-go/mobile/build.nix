@@ -4,7 +4,7 @@
 , platform ? "android"
 , platformVersion ? "23"
 , architectures ? [ "arm64" "arm" "x86" ]
-, goBuildFlags ? [ "-x" ]
+, goBuildFlags ? [ "-v" "-x" ]
 , goBuildLdFlags ? [ ]
 , outputFileName ? "status-go-${source.shortRev}-${platform}.aar" }:
 
