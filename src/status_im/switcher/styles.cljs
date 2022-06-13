@@ -8,11 +8,13 @@
   {:light {:bottom-tabs-bg-color           colors/neutral-80
            :bottom-tabs-on-scroll-bg-color colors/neutral-80-opa-80
            :bottom-tabs-non-selected-tab   colors/neutral-50
-           :bottom-tabs-selected-tab       colors/white}
+           :bottom-tabs-selected-tab       colors/white
+           :switcher-close-button-bg-color colors/white}
    :dark  {:bottom-tabs-bg-color           colors/neutral-80
            :bottom-tabs-on-scroll-bg-color colors/neutral-80-opa-60
            :bottom-tabs-non-selected-tab   colors/neutral-40
-           :bottom-tabs-selected-tab       colors/white}})
+           :bottom-tabs-selected-tab       colors/white
+           :switcher-close-button-bg-color colors/white}}) ;; TODO - update close-button-bg-color-for-dark-theme
 
 (defn get-color [key]
   (get-in themes [(theme/get-theme) key]))
@@ -33,11 +35,10 @@
    :position         :absolute
    :bottom           -1
    :right            0
-   :left             0
-   :opacity          animation/bottom-tabs-opacity
-   :transform        [{:translateY animation/bottom-tabs-position}]})
+   :left             0})
 
 ;; Switcher
+
 (defn switcher-button [opacity]
   {:width      constants/switcher-button-size
    :height     constants/switcher-button-size
@@ -52,23 +53,18 @@
     :bottom          0
     :z-index         3
     :align-items     :center
-    :align-self      :center
+    :alignSelf       :center ;; align-self is not working in animated style
     :justify-content :center}
    style))
 
 (defn switcher-button-touchable [view-id]
   (merge-switcher-button-common-styles
-   {:align-self :center
-    :bottom     (constants/switcher-bottom-position view-id)}))
+   {:bottom (constants/switcher-bottom-position view-id)}))
 
-(defn switcher-close-button-background [opacity]
+(defn switcher-close-button [opacity]
   (merge-switcher-button-common-styles
-   {:background-color colors/switcher-background
+   {:background-color (get-color :switcher-close-button-bg-color)
     :opacity          opacity}))
-
-(defn switcher-close-button-icon [opacity]
-  (merge-switcher-button-common-styles
-   {:opacity          opacity}))
 
 (defn switcher-screen [view-id radius]
   (let [bottom (- (constants/switcher-center-position view-id) radius)
@@ -78,8 +74,8 @@
       :bottom           bottom
       :border-radius    1000
       :width            size
-      :overflow         :hidden
-      :height           size})))
+      :height           size
+      :overflow         :hidden})))
 
 (defn switcher-screen-container [view-id radius]
   (let [radius                 radius
