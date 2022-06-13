@@ -15,6 +15,7 @@ class TestCommandsMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
+        assert 1 == 2
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
         self.sender = transaction_senders['ETH_STT_3']
         self.home_1 = self.device_1.recover_access(passphrase=self.sender['passphrase'], enable_notifications=True)
