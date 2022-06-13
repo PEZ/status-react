@@ -13,6 +13,7 @@ from views.sign_in_view import SignInView
 @marks.medium
 class TestProfileGapsCommunityMediumMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])

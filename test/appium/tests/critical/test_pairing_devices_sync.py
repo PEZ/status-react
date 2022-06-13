@@ -11,6 +11,7 @@ from views.sign_in_view import SignInView
 @marks.skip
 class TestPairingMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         from views.dbs.main_pairing.data import seed_phrase, password
         self.drivers, self.loop = create_shared_drivers(2)
@@ -91,6 +92,7 @@ class TestPairingMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestPairingSyncMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.no_contact_nickname = 'no_contact_nickname'

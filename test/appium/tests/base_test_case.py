@@ -316,12 +316,13 @@ def create_shared_drivers(quantity):
 
 class LocalSharedMultipleDeviceTestCase(AbstractTestCase):
 
-    def setup_method(self, method):
+    @pytest.fixture(autouse=True, scope='function')
+    def setup_method(self, request):
         jobs = test_suite_data.current_test.testruns[-1].jobs
         if not jobs:
-            for index, driver in self.drivers.items():
+            for index, driver in request.cls.drivers.items():
                 jobs[driver.session_id] = index + 1
-        self.errors = Errors()
+        request.cls.errors = Errors()
 
     def teardown_method(self, method):
         for driver in self.drivers:
@@ -341,14 +342,15 @@ class LocalSharedMultipleDeviceTestCase(AbstractTestCase):
 
 class SauceSharedMultipleDeviceTestCase(AbstractTestCase):
 
-    def setup_method(self, method):
-        for _, driver in self.drivers.items():
-            driver.execute_script("sauce:context=Started %s" % method.__name__)
+    @pytest.fixture(autouse=True, scope='function')
+    def setup_method(self, request):
+        for _, driver in request.cls.drivers.items():
+            driver.execute_script("sauce:context=Started %s" % request.keywords.node.name)
         jobs = test_suite_data.current_test.testruns[-1].jobs
         if not jobs:
-            for index, driver in self.drivers.items():
+            for index, driver in request.cls.drivers.items():
                 jobs[driver.session_id] = index + 1
-        self.errors = Errors()
+        request.cls.errors = Errors()
         test_suite_data.current_test.group_name = self.__class__.__name__
 
     def teardown_method(self, method):

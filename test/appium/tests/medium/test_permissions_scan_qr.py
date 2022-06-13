@@ -14,6 +14,7 @@ from views.web_views.base_web_view import BaseWebView
 @marks.medium
 class TestPermissionsScanQrOneDevice(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])

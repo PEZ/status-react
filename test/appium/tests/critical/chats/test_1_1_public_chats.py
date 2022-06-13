@@ -13,6 +13,7 @@ import pytest
 @marks.critical
 class TestCommandsMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         assert 1 == 2
@@ -213,6 +214,7 @@ class TestCommandsMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestOneToOneChatMultipleSharedDevices(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
@@ -621,6 +623,7 @@ class TestOneToOneChatMultipleSharedDevices(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestContactBlockMigrateKeycardMultipleSharedDevices(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
@@ -961,6 +964,7 @@ class TestContactBlockMigrateKeycardMultipleSharedDevices(MultipleSharedDeviceTe
 @marks.critical
 class TestEnsStickersMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])

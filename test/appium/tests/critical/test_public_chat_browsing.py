@@ -15,6 +15,7 @@ from selenium.common.exceptions import NoSuchElementException
 @marks.critical
 class TestPublicChatMultipleDeviceMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         device_1, device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
@@ -228,6 +229,7 @@ class TestPublicChatMultipleDeviceMerged(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestPublicChatBrowserOneDeviceMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])

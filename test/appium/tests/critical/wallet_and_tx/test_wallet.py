@@ -13,6 +13,7 @@ from support.utilities import get_merged_txs_list
 @marks.critical
 class TestWalletManagementDeviceMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.user = wallet_users['D']
         self.account_seed_collectibles = 'acc_collectibles'

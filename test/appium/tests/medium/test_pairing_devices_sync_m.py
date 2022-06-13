@@ -9,6 +9,7 @@ from views.sign_in_view import SignInView
 @marks.medium
 class TestPairingSyncMediumMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(3)
         self.device_1, self.device_2, self.device_3 = SignInView(self.drivers[0]), SignInView(

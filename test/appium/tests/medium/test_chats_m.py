@@ -15,6 +15,7 @@ from views.sign_in_view import SignInView
 @marks.medium
 class TestTimelineHistoryNodesBootnodesMultipleDeviceMergedMedium(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         device_1, device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
@@ -296,6 +297,7 @@ class TestTimelineHistoryNodesBootnodesMultipleDeviceMergedMedium(MultipleShared
 @marks.medium
 class TestChatMediumMultipleDevice(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
@@ -704,6 +706,7 @@ class TestChatMediumMultipleDevice(MultipleSharedDeviceTestCase):
 @marks.medium
 class TestGroupChatMultipleDeviceMediumMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(3)
         self.sign_ins, self.homes, self.public_keys, self.usernames, self.chats = {}, {}, {}, {}, {}
@@ -786,6 +789,7 @@ class TestGroupChatMultipleDeviceMediumMerged(MultipleSharedDeviceTestCase):
 @marks.medium
 class TestChatKeycardMentionsMediumMultipleDevice(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])

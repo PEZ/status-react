@@ -13,6 +13,7 @@ from views.sign_in_view import SignInView
 @marks.critical
 class TestSendTxDeviceMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.user = transaction_senders['ETH_STT_4']
         self.recipient_address = '0x%s' % transaction_senders['ETH_ADI_STT_3']['address']
@@ -269,6 +270,7 @@ class TestSendTxDeviceMerged(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestKeycardTxOneDeviceMerged(MultipleSharedDeviceTestCase):
 
+    @pytest.fixture(autouse=True, scope='class')
     def setup_class(self):
         self.user = transaction_senders['ETH_STT_ADI_1']
         self.address = '0x%s' % transaction_senders['ETH_7']['address']
