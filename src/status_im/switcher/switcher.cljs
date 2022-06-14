@@ -17,8 +17,6 @@
   [:f>
    (fn []
      (let [touchable-scale          (reanimated/use-shared-value 1)
-           close-button-opacity     (reanimated/use-shared-value 0)
-           switcher-button-opacity  (reanimated/use-shared-value 1)
            touchable-original-style (styles/switcher-button-touchable view-id)
            touchable-animated-style (reanimated/apply-animations-to-style
                                      {:transform [{:scale touchable-scale}]}
