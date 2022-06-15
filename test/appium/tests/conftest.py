@@ -216,7 +216,10 @@ def should_save_device_stats(config):
 def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
-    if "xdist_group" in item.keywords._markers and report.when == "setup" and report.failed:
+    is_sauce_env = item.config.getoption('env') == 'sauce'
+    if (
+            "xdist_group" in item.keywords._markers or "xdist_group" in item.parent.keywords._markers
+    ) and report.when == "setup" and report.failed:
         test_suite_data.current_test.group_name = item.instance.__class__.__name__
         error = report.longreprtext
         exception = re.findall('E.*Message:|E.*Error:|E.*Failed:', error)
@@ -224,8 +227,10 @@ def pytest_runtest_makereport(item, call):
             error = error.replace(re.findall('E.*Message:|E.*Error:|E.*Failed:', report.longreprtext)[0], '')
         test_suite_data.current_test.testruns[-1].error = "Test setup failed: \n" + error
         github_report.save_test(test_suite_data.current_test)
+        if is_sauce_env:
+            update_sauce_jobs(test_suite_data.current_test.group_name, test_suite_data.current_test.testruns[-1].jobs,
+                              report.passed)
     if report.when == 'call':
-        is_sauce_env = item.config.getoption('env') == 'sauce'
         current_test = test_suite_data.current_test
         if report.failed:
             error = report.longreprtext

@@ -10,8 +10,7 @@ from tests.users import basic_user, ens_user, ens_user_ropsten, transaction_send
 @marks.medium
 class TestBrowserProfileOneDevice(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])
         self.home = self.sign_in.create_user()

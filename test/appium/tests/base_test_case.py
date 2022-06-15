@@ -316,13 +316,12 @@ def create_shared_drivers(quantity):
 
 class LocalSharedMultipleDeviceTestCase(AbstractTestCase):
 
-    @pytest.fixture(autouse=True, scope='function')
-    def setup_method(self, request):
+    def setup_method(self, method):
         jobs = test_suite_data.current_test.testruns[-1].jobs
         if not jobs:
-            for index, driver in request.cls.drivers.items():
+            for index, driver in self.drivers.items():
                 jobs[driver.session_id] = index + 1
-        request.cls.errors = Errors()
+        self.errors = Errors()
 
     def teardown_method(self, method):
         for driver in self.drivers:
@@ -330,6 +329,13 @@ class LocalSharedMultipleDeviceTestCase(AbstractTestCase):
                 self.add_alert_text_to_report(self.drivers[driver])
             except WebDriverException:
                 pass
+
+    @pytest.fixture(scope='class', autouse=True)
+    def prepare(self, request):
+        try:
+            request.cls.prepare_devices(request)
+        finally:
+            request.cls.drivers = request.drivers
 
     @classmethod
     def teardown_class(cls):
@@ -342,15 +348,14 @@ class LocalSharedMultipleDeviceTestCase(AbstractTestCase):
 
 class SauceSharedMultipleDeviceTestCase(AbstractTestCase):
 
-    @pytest.fixture(autouse=True, scope='function')
-    def setup_method(self, request):
-        for _, driver in request.cls.drivers.items():
-            driver.execute_script("sauce:context=Started %s" % request.keywords.node.name)
+    def setup_method(self, method):
+        for _, driver in self.drivers.items():
+            driver.execute_script("sauce:context=Started %s" % method.__name__)
         jobs = test_suite_data.current_test.testruns[-1].jobs
         if not jobs:
-            for index, driver in request.cls.drivers.items():
+            for index, driver in self.drivers.items():
                 jobs[driver.session_id] = index + 1
-        request.cls.errors = Errors()
+        self.errors = Errors()
         test_suite_data.current_test.group_name = self.__class__.__name__
 
     def teardown_method(self, method):
@@ -368,6 +373,13 @@ class SauceSharedMultipleDeviceTestCase(AbstractTestCase):
             finally:
                 geth = {geth_names[i]: geth_contents[i] for i in range(len(geth_names))}
                 test_suite_data.current_test.geth_paths = self.github_report.save_geth(geth)
+
+    @pytest.fixture(scope='class', autouse=True)
+    def prepare(self, request):
+        try:
+            request.cls.prepare_devices(request)
+        finally:
+            request.cls.drivers, request.cls.loop = request.drivers, request.loop
 
     @classmethod
     def teardown_class(cls):

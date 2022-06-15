@@ -13,8 +13,7 @@ from views.sign_in_view import SignInView
 @marks.medium
 class TestKeycardMediumMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.user = transaction_senders['ETH_STT_4']
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])
@@ -203,8 +202,7 @@ class TestKeycardMediumMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 @marks.medium
 class TestWalletTestDappMediumMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.user = transaction_senders['ETH_5']
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])

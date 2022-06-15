@@ -13,11 +13,10 @@ import pytest
 @marks.critical
 class TestCommandsMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(2)
-        assert 1 == 2
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
+        self.device_1.continue_custom_seed_phrase_button.click()
         self.sender = transaction_senders['ETH_STT_3']
         self.home_1 = self.device_1.recover_access(passphrase=self.sender['passphrase'], enable_notifications=True)
         self.home_2 = self.device_2.create_user()
@@ -214,8 +213,7 @@ class TestCommandsMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestOneToOneChatMultipleSharedDevices(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
         self.home_1 = self.device_1.create_user(enable_notifications=True)
@@ -623,8 +621,7 @@ class TestOneToOneChatMultipleSharedDevices(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestContactBlockMigrateKeycardMultipleSharedDevices(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
         self.sender = transaction_senders['ETH_2']
@@ -964,8 +961,7 @@ class TestContactBlockMigrateKeycardMultipleSharedDevices(MultipleSharedDeviceTe
 @marks.critical
 class TestEnsStickersMultipleDevicesMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(2)
         self.device_1, self.device_2 = SignInView(self.drivers[0]), SignInView(self.drivers[1])
         self.sender, self.reciever = transaction_senders['ETH_3'], ens_user

@@ -12,8 +12,7 @@ from tests.users import basic_user, transaction_senders
 @marks.critical
 class TestOnboardingOneDeviceMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])
         self.password = basic_user['special_chars_password']
@@ -228,8 +227,7 @@ class TestOnboardingOneDeviceMerged(MultipleSharedDeviceTestCase):
 @marks.critical
 class TestRestoreOneDeviceMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.user = transaction_senders['ETH_ADI_STT_2']
         self.drivers, self.loop = create_shared_drivers(1)
         self.sign_in = SignInView(self.drivers[0])

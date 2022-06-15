@@ -9,8 +9,7 @@ from views.chat_view import ChatView
 @marks.critical
 class TestGroupChatMultipleDeviceMerged(MultipleSharedDeviceTestCase):
 
-    @pytest.fixture(autouse=True, scope='class')
-    def setup_class(self):
+    def prepare_devices(self):
         self.drivers, self.loop = create_shared_drivers(3)
         self.message_before_adding = 'message before adding new user'
         self.message_to_admin = 'Hey, admin!'
